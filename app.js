@@ -72,6 +72,6 @@ app.post("/appointment-slot", appointmentController.createApt);
 app.post("/slots", appointmentController.getAvailableSlots);
 app.post("/appointment-slot-book", appointmentController.bookAppointmentSlot);
 
-
+app.use(express.json());
 
 module.exports = app;
