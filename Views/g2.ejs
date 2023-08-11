@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>Book DriveTest</title>
+    <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+    <!-- Bootstrap icons-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
+    <!-- Google fonts-->
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,wght@0,600;1,600&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Mulish:ital,wght@0,300;0,500;0,600;0,700;1,300;1,500;1,600;1,700&amp;display=swap"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,400;1,400&amp;display=swap"
+        rel="stylesheet" />
+    <!-- Core theme CSS (includes Bootstrap)-->
+    <link rel="stylesheet" href="css/styles.css" />
+</head>
+
+<body id="page-top">
+    <!-- Navigation-->
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top shadow-sm" id="mainNav">
+        <div class="container px-5">
+          <a class="navbar-brand fw-bold" href="/">Book DriveTest</a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive"
+            aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+            Menu
+            <i class="bi-list"></i>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav ms-auto me-4 my-3 my-lg-0">
+              <li class="nav-item">
+                <a class="nav-link me-lg-3" href="/">Dashboard</a>
+              </li>
+              <% if(loggedIn && userType == "Driver") { %>
+              <li class="nav-item">
+                <a class="nav-link me-lg-3" href="/g2">G2_Test</a>
+              </li>
+              <% } %>
+              <% if(loggedIn && userType == "Driver") { %>
+              <li class="nav-item">
+                <a class="nav-link me-lg-3" href="/g">G_Test</a>
+              </li>
+              <% } %> 
+              <% if(loggedIn && userType == "Admin") { %>
+              <li class="nav-item">
+                <a class="nav-link me-lg-3" href="/appointments">Appointment</a>
+              </li>
+              <% } %> 
+    
+            </ul>
+            <% if(!loggedIn) { %>
+            <a href="/login" class="btn btn-primary rounded-pill px-3 mb-2 mb-lg-0" style="margin-right: 10px;">
+              <span class="d-flex align-items-center">
+                <i class="bi-chat-text-fill me-2"></i>
+                <span class="small">Login</span>
+              </span>
+            </a>
+            <% } %> 
+            <% if(loggedIn) { %>
+            <a href="/logout" class="btn btn-primary rounded-pill px-3 mb-2 mb-lg-0" style="margin-left: 10px;">
+              <span class="d-flex align-items-center">
+                <i class="bi-box-arrow-right me-2"></i>
+                <span class="small">Logout</span>
+              </span>
+            </a>
+            <% } %> 
+            
+          </div>
+        </div>
+        </nav>
+    <!-- Mashead header-->
+    <header class="masthead">
+        <div class="container px-5">
+            <div class="row gx-5 align-items-center">
+                <div>
+                    <div class="appointment">
+                        <h1 class="heading">Book Appointment</h1><br>
+                        <form action="/slots" method="POST">
+                          <div class="row">
+                              <div class="col-252">
+                                  <label>
+                                      <h4>Appointment Slots</h4>
+                                  </label>
+                              </div>
+                          </div>
+                          <div class="row">
+                              <div class="col-752">
+                                  <input type="Date" class="inp2" id="dob" name="Date"
+                                      placeholder="Date" required>
+                              </div>
+                          </div><br>
+                          <div class="row">
+                              <div class="col-752">
+                                <button class="btn btn-primary text-uppercase" id="submitButton"
+                                type="submit">Submit</button>
+                              </div>
+                          </div>
+                      </form>
+                    </div><br>
+                    <!-- Mashead text and app badges-->
+                    <div class="mb-5 mb-lg-0 text-center text-lg-start">
+                        <h1 class="heading">G2 Page</h1>
+                        <% if( typeof available !=='undefined' && available !=null && available.length>
+                                            0) {
+                                             %>
+                                            <form id="g2Form" action="/g2" method="POST"
+                                                data-sb-form-api-token="API_TOKEN">
+                                                <hr>
+                                                <div class="form-floating">
+                                                    <input type="date" class="form-control" name="Date"
+                                                        placeholder="Date" readonly value=<%- `"${Date}"` -%> >
+                                                    <label for="date">Appointment Date</label>
+                                                </div><br>
+                                                <div class="form-floating">
+                                                    <p style="display: inline-block;">Appointment Time</p>
+                                                    <select name="Time" style="display: inline-block;">
+                                                        <% for ( let i of available ) {%>
+                                                            <option value=<%- `"${i}"` -%> >
+                                                                <%= i %>
+                                                            </option>
+                                                            <% } %>
+                                                    </select>
+                                                </div>
+                                                <hr>
+                                                <h1 class="heading" >Personal Details</h1> <br /><br />
+                                                <div class="form-floating">
+                                                    <input class="form-control" id="firstName" name="firstName"
+                                                        type="text" placeholder="Enter your first name..."
+                                                        data-sb-validations="required" required />
+                                                    <label for=" firstName">First Name</label>
+                                                    <div class="invalid-feedback" data-sb-feedback="firstName:required">
+                                                        A
+                                                        firstName
+                                                        is
+                                                        required.
+                                                    </div>
+                                                </div>
+                                                <div class="form-floating">
+                                                    <input class="form-control" id="lastName" name="lastName"
+                                                        type="text" placeholder="Enter your last name..."
+                                                        data-sb-validations="required" required />
+                                                    <label for="lastName">Last Name</label>
+                                                    <div class="invalid-feedback" data-sb-feedback="lastName:required">
+                                                        A
+                                                        lastName
+                                                        is
+                                                        required.</div>
+                                                </div>
+                                                <div class="form-floating">
+                                                    <input class="form-control" id="licenseNumber" name="licenseNumber"
+                                                        type="text" placeholder="Enter your Licence Number..."
+                                                        data-sb-validations="required" required />
+                                                    <label for="licenseNumber">Licence Number</label>
+                                                    <div class="invalid-feedback"
+                                                        data-sb-feedback="licenseNumber:required">
+                                                        A
+                                                        licenseNumber
+                                                        is
+                                                        required.</div>
+                                                </div>
+                                                <div class="form-floating">
+                                                    <input class="form-control" id="age" name="age" type="number"
+                                                        placeholder="Enter your Age..."
+                                                        data-sb-validations="required" />
+                                                    <label for="age">Age</label>
+                                                    <div class="invalid-feedback" data-sb-feedback="age:required">A
+                                                        Age
+                                                        is
+                                                        required.</div>
+                                                </div><br>
+                                                <div class="form-floating">
+                                                    <input class="form-control" id="dob" name="dob" type="date"
+                                                        placeholder="Enter your Date Of Birth..."
+                                                        data-sb-validations="required" required />
+                                                    <label for="dob">Date Of Birth</label>
+                                                    <div class="invalid-feedback" data-sb-feedback="dob:required">A
+                                                        Date Of Birth
+                                                        is
+                                                        required.</div>
+                                                </div>
+                                                <br /><br /><span class="subheading">Car Details</span> <br /><br />
+                                                <div class="form-floating">
+                                                    <input class="form-control" id="make" name="make" type="text"
+                                                        placeholder="Enter your car's make..."
+                                                        data-sb-validations="required" required />
+                                                    <label for="make">Make</label>
+                                                    <div class="invalid-feedback" data-sb-feedback="make:required">A
+                                                        Make
+                                                        is
+                                                        required.</div>
+                                                </div>
+                                                <div class="form-floating">
+                                                    <input class="form-control" id="model" name="model" type="text"
+                                                        placeholder="Enter your car's model..."
+                                                        data-sb-validations="required" required />
+                                                    <label for="model">Model</label>
+                                                    <div class="invalid-feedback" data-sb-feedback="model:required">
+                                                        A Model
+                                                        is
+                                                        required.</div>
+                                                </div>
+                                                <div class="form-floating">
+                                                    <input class="form-control" id="year" name="year" type="number"
+                                                        placeholder="Enter your car's manufacturing year..."
+                                                        data-sb-validations="required" required />
+                                                    <label for="year">Year</label>
+                                                    <div class="invalid-feedback" data-sb-feedback="year:required">A
+                                                        Year
+                                                        is
+                                                        required.</div>
+                                                </div><br>
+                                                <div class="form-floating">
+                                                    <input class="form-control" id="plateNumber" name="plateNumber" type="text"
+                                                        placeholder="Enter your car's plat number..."
+                                                        data-sb-validations="required" required />
+                                                    <label for="plateNumber">Plate Number</label>
+                                                    <div class="invalid-feedback" data-sb-feedback="plateNumber:required">A
+                                                        Plate Number 
+                                                        is
+                                                        required.</div>
+                                                </div>
+                                                <br />
+                                                <button class="btn btn-primary text-uppercase" id="submitButton"
+                                                    type="submit">Submit</button>
+                                            </form>
+                                            <% } %>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <!-- Quote/testimonial aside-->
+    <!-- Footer-->
+    <footer class="bg-black text-center py-5">
+        <div class="container px-5">
+            <div class="text-white-50 small">
+                <div class="mb-2">&copy; Book DriveTest 2023. All Rights Reserved.</div>
+            </div>
+        </div>
+    </footer>
+    <!-- Bootstrap core JS-->
+    <!-- <script>// g2.js
+
+        // Function to fetch available appointment slots for the selected date
+        function getAvailableSlot(selectedDate) {
+          const formattedDate = new Date(selectedDate).toISOString().split('T')[0];
+        
+          fetch("/slots", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ selectedDate: formattedDate }),
+          })
+            .then((response) => response.json())
+            .then((data) => {
+              const appointmentList = document.getElementById("appointmentList");
+              appointmentList.innerHTML = "";
+        
+              data.forEach((slot) => {
+                const listItem = document.createElement("li");
+                listItem.textContent = slot.Time;
+        
+                // Add a button to book the appointment
+                const bookButton = document.createElement("button");
+                bookButton.textContent = "Book";
+                bookButton.onclick = () => bookAppointment(slot.Date, slot.Time);
+        
+                listItem.appendChild(bookButton);
+                appointmentList.appendChild(listItem);
+              });
+            })
+            .catch((error) => console.error("Error:", error));
+        }
+        
+        // Function to book an appointment
+        function bookAppointment(date, time) {
+          // Send a POST request to the server to book the appointment
+          fetch("/appointment-slot-book", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ Date: date, Time: time }),
+          })
+            .then((response) => response.json())
+            .then((data) => {
+              alert(data.message);
+              getAvailableSlot(document.getElementById("datePicker").value); // Refresh the available slots list after booking
+            })
+            .catch((error) => console.error("Error:", error));
+        }
+        </script> -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Core theme JS-->
+    <script src="js/scripts.js"></script>
+    <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
+    <!-- * *                               SB Forms JS                               * *-->
+    <!-- * * Activate your form at https://startbootstrap.com/solution/contact-forms * *-->
+    <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
+    <script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>
+</body>
+</html>
