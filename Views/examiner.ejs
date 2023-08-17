@@ -141,85 +141,49 @@
   <!-- Mashead header-->
   <header class="masthead">
     <div class="container">
-        <main id="main">
-            <form method="post" action="/appointment-slot">
-                <div class="box">
-                  <br>
-                    <h1>Add Slot</h1>
-                    <div class="form-floating">
-                        <input id="sdate" type="date" name="sdate" placeholder="YYYY/MM/DD" class="form-control" required />
-                        <label for="sdate">Select Date</label>
-                    </div>
-                    <br>
-                    <div class="form-floating">
-                        <select name="stime" id="stime" class="form-control">
-                            <option value="0">Select Slot Time</option>
-                            <option value="09:00">09:00</option>
-                            <option value="09:30">09:30</option>
-                            <option value="10:00">10:00</option>
-                            <option value="10:30">10:30</option>
-                            <option value="11:00">11:00</option>
-                            <option value="11:30">11:30</option>
-                            <option value="12:00">12:00</option>
-                            <option value="12:30">12:30</option>
-                            <option value="01:00">01:00</option>
-                            <option value="01:30">01:30</option>
+      <main id="main">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>License Number</th>
+              <th>Date of Birth</th>
+              <th>Car Details</th>
+              <th>Pass/Fail</th>
+              <th>Comment</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% for (const user of gPageUserData.concat(g2PageUserData)) { %>
+              <tr>
+                <td><%= user.firstName %> <%= user.lastName %></td>
+                <td><%= user.licenseNumber %></td>
+                <td><%= user.dob %></td>
+                <td><%= user.carDetails.make %> <%= user.carDetails.model %></td>
+                <td>
+      
+                    <form action="/examiner/markPassFail/<%= user._id %>" method="post" class="p-2">
+                      <div id="formExam">
+                        <select name="result" id="result">
+                          <option id="pass" name="result" value="Pass">Pass</option>
+                          <option id="fail" name="result" value="fail">fail</option>
                         </select>
-                        <label for="stime">Select Time</label>
-                    </div>
-                    <br>
-                    <div class="text-center">
-                      <button type="submit" class="btn btn-primary submit-btn">Submit</button>
-                  </div>
-                </div>
-            </form>
-            <br>
-            
-            <div class="container mt-5">
-                <div class="row justify-content-center">
-                    <div class="col-lg-6">
-                        <div class="appointment-container">
-                            <h3>Available Slots</h3>
-                            <ul>
-                                <% if (typeof availableSlot !== 'undefined' ) { %>
-                                    <% if (availableSlot.length > 0) { %>
-                                        <% availableSlot.forEach(slot=> { %>
-                                            <li>
-                                                <span><%= slot.Date %></span>
-                                                <span><%= slot.Time %></span>
-                                            </li>
-                                        <% }); %>
-                                    <% } else { %>
-                                        <p class="no-slots">No available slots for the selected date.</p>
-                                    <% } %>
-                                <% } else { %>
-                                    <p class="loading-slots">Loading available slots...</p>
-                                <% } %>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-          
-            <br>
-            <!-- Slot Added Message -->
-            <% if (typeof message !='undefined' && message !=='' ) { %>
-                <div class="slot-added">
-                    <p class="text-<%= color %> fw-bold">
-                        <%= message %>
-                    </p>
-                    <% if (typeof availableSlot !== 'undefined' ) { %>
-                        <p>Added Slot Date: <%= addedSlotDate %></p>
-                        <p>Added Slot Time: <%= addedSlotTime %></p>
-                    <% } %>
-                </div>
+                        <input type="submit" class="btn btn-success " value="Submit" />
+                      </div>
+                    </form>
+                <td>
+                  <form action="/examiner/addComment/<%= user._id %>" method="post">
+                    <input type="text" name="comment">
+                    <input type="submit" value="Add Comment">
+                  </form>
+                </td>
+              </tr>
             <% } %>
-
-            
-            </table>
-        </main>
+          </tbody>
+        </table>
+      </main>
     </div>
-</header>
+  </header>
 
   <!-- Quote/testimonial aside-->
   <!-- Footer-->
@@ -245,3 +209,6 @@
 </body>
 
 </html>
+
+
+

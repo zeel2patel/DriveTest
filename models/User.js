@@ -37,6 +37,8 @@ const UserSchema = new Schema({
     password: {type: String},
     cpassword: {type: String},
     userType: {type: String},
+  comment: { type: String },
+  passFail: { type: Boolean },
 });
 
 UserSchema.pre("save", function (next) {

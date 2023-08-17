@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
@@ -27,51 +26,59 @@
     <!-- Navigation-->
     <nav class="navbar navbar-expand-lg navbar-light fixed-top shadow-sm" id="mainNav">
         <div class="container px-5">
-          <a class="navbar-brand fw-bold" href="/">Book DriveTest</a>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive"
-            aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-            Menu
-            <i class="bi-list"></i>
-          </button>
-          <div class="collapse navbar-collapse" id="navbarResponsive">
-            <ul class="navbar-nav ms-auto me-4 my-3 my-lg-0">
-              <li class="nav-item">
-                <a class="nav-link me-lg-3" href="/">Dashboard</a>
-              </li>
-              <% if(loggedIn && userType == "Driver") { %>
-              <li class="nav-item">
-                <a class="nav-link me-lg-3" href="/g2">G2_Test</a>
-              </li>
-              <% } %>
-              <% if(loggedIn && userType == "Driver") { %>
-              <li class="nav-item">
-                <a class="nav-link me-lg-3" href="/g">G_Test</a>
-              </li>
-              <% } %> 
-              <% if(loggedIn && userType == "Admin") { %>
-              <li class="nav-item">
-                <a class="nav-link me-lg-3" href="/appointments">Appointment</a>
-              </li>
-              <% } %> 
-    
-            </ul>
-            <% if(!loggedIn) { %>
-            <a href="/login" class="btn btn-primary rounded-pill px-3 mb-2 mb-lg-0" style="margin-right: 10px;">
-              <span class="d-flex align-items-center">
-                <i class="bi-chat-text-fill me-2"></i>
-                <span class="small">Login</span>
-              </span>
-            </a>
-            <% } %> 
-            <% if(loggedIn) { %>
-            <a href="/logout" class="btn btn-primary rounded-pill px-3 mb-2 mb-lg-0" style="margin-left: 10px;">
-              <span class="d-flex align-items-center">
-                <i class="bi-box-arrow-right me-2"></i>
-                <span class="small">Logout</span>
-              </span>
-            </a>
-            <% } %> 
-          </div>
+            <a class="navbar-brand fw-bold" href="/">Book DriveTest</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive"
+                aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                Menu
+                <i class="bi-list"></i>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+                <ul class="navbar-nav ms-auto me-4 my-3 my-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link me-lg-3" href="/">Dashboard</a>
+                    </li>
+                    <% if(loggedIn && userType=="Driver" ) { %>
+                        <li class="nav-item">
+                            <a class="nav-link me-lg-3" href="/g2">G2_Test</a>
+                        </li>
+                        <% } %>
+                            <% if(loggedIn && userType=="Driver" ) { %>
+                                <li class="nav-item">
+                                    <a class="nav-link me-lg-3" href="/g">G_Test</a>
+                                </li>
+                                <% } %>
+                                    <% if(loggedIn && userType=="Admin" ) { %>
+                                        <li class="nav-item">
+                                            <a class="nav-link me-lg-3" href="/appointments">Appointment</a>
+                                        </li>
+                                        <% } %>
+                                        <% if(loggedIn && userType=="Examiner" ) { %>
+                                            <li class="nav-item">
+                                              <a class="nav-link me-lg-3" href="/examiner">Examiner</a>
+                                            </li>
+                                            <% } %>
+                                        <!-- Navigation Bar (navbar.ejs) -->
+  
+
+                </ul>
+                <% if(!loggedIn) { %>
+                    <a href="/login" class="btn btn-primary rounded-pill px-3 mb-2 mb-lg-0" style="margin-right: 10px;">
+                        <span class="d-flex align-items-center">
+                            <i class="bi-chat-text-fill me-2"></i>
+                            <span class="small">Login</span>
+                        </span>
+                    </a>
+                    <% } %>
+                        <% if(loggedIn) { %>
+                            <a href="/logout" class="btn btn-primary rounded-pill px-3 mb-2 mb-lg-0"
+                                style="margin-left: 10px;">
+                                <span class="d-flex align-items-center">
+                                    <i class="bi-box-arrow-right me-2"></i>
+                                    <span class="small">Logout</span>
+                                </span>
+                            </a>
+                            <% } %>
+            </div>
         </div>
     </nav>
     <!-- Mashead header-->
@@ -79,126 +86,121 @@
         <div class="container px-5">
             <div class="row gx-5 align-items-center">
                 <div>
-                    <div class="container mb-5">
+                    <main class="mb-4">
 
-                        <main class="mb-4">
+                        <ul class="nav nav-tabs justify-content-center" id="myTab" role="tablist">
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link active" id="login-tab" data-bs-toggle="tab"
+                                    data-bs-target="#loginForm" type="button" role="tab" aria-controls="login"
+                                    aria-selected="true">Login</button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="signup-tab" data-bs-toggle="tab"
+                                    data-bs-target="#signupform" type="button" role="tab" aria-controls="signup"
+                                    aria-selected="false">Sign Up</button>
+                            </li>
+                        </ul>
 
-                            <ul class="nav nav-tabs justify-content-center" id="myTab" role="tablist">
-                                <li class="nav-item" role="presentation">
-                                    <button class="nav-link active" id="login-tab" data-bs-toggle="tab"
-                                        data-bs-target="#loginForm" type="button" role="tab" aria-controls="login"
-                                        aria-selected="true">Login</button>
-                                </li>
-                                <li class="nav-item" role="presentation">
-                                    <button class="nav-link" id="signup-tab" data-bs-toggle="tab"
-                                        data-bs-target="#signupform" type="button" role="tab" aria-controls="signup"
-                                        aria-selected="false">Sign Up</button>
-                                </li>
-                            </ul>
+                        <div class="container px-4 px-lg-5">
+                            <div class="row gx-4 gx-lg-5 justify-content-center">
+                                <div class="col-md-10 col-lg-8 col-xl-7">
+                                    <div class="my-5 tab-content">
 
-                            <div class="container px-4 px-lg-5">
-                                <div class="row gx-4 gx-lg-5 justify-content-center">
-                                    <div class="col-md-10 col-lg-8 col-xl-7">
-                                        <div class="my-5 tab-content">
+                                        <% if(typeof error !='undefined' ) { %>
+                                            <div class="alert alert-warning alert-dismissible fade show">
+                                                <%= error %>
+                                            </div>
+                                            <% } %>
+                                                <!-- Login Form -->
+                                                <form class="tab-pane fade show active" id="loginForm"
+                                                    action="/AuthenticateUser" method="POST"
+                                                    data-sb-form-api-token="API_TOKEN">
+                                                    <!-- User Name Field -->
+                                                    <div class="form-floating">
+                                                        <input class="form-control" id="username" name="username"
+                                                            type="text" placeholder="Enter your user name..."
+                                                            data-sb-validations="required,username" />
+                                                        <label for="username">User Name</label>
+                                                        <div class="invalid-feedback"
+                                                            data-sb-feedback="username:required">A username is
+                                                            required.</div>
+                                                        <div class="invalid-feedback"
+                                                            data-sb-feedback="username:username">User Name is not
+                                                            valid.</div>
+                                                    </div>
+                                                    <!-- Password Field -->
+                                                    <div class="form-floating">
+                                                        <input class="form-control" id="password" name="password"
+                                                            type="password" placeholder="Enter your password..."
+                                                            data-sb-validations="required,password" />
+                                                        <label for="password">Password</label>
+                                                        <div class="invalid-feedback"
+                                                            data-sb-feedback="password:required">A password is
+                                                            required.</div>
+                                                    </div>
+                                                    <br />
+                                                    <!-- Submit Button -->
+                                                    <button class="btn btn-primary text-uppercase" id="submitButton"
+                                                        type="submit">Login</button>
+                                                </form>
 
-                                            <% if(typeof error !='undefined' ) { %>
-                                                <div class="alert alert-warning alert-dismissible fade show">
-                                                    <%= error %>
-                                                </div>
-                                                <% } %>
-                                                    <!-- Login Form -->
-                                                    <form class="tab-pane fade show active" id="loginForm"
-                                                        action="/AuthenticateUser" method="POST"
-                                                        data-sb-form-api-token="API_TOKEN">
-                                                        <!-- User Name Field -->
-                                                        <div class="form-floating">
-                                                            <input class="form-control" id="username" name="username"
-                                                                type="text" placeholder="Enter your user name..."
-                                                                data-sb-validations="required,username" />
-                                                            <label for="username">User Name</label>
-                                                            <div class="invalid-feedback"
-                                                                data-sb-feedback="username:required">A username is
-                                                                required.</div>
-                                                            <div class="invalid-feedback"
-                                                                data-sb-feedback="username:username">User Name is not
-                                                                valid.</div>
-                                                        </div>
-                                                        <!-- Password Field -->
-                                                        <div class="form-floating">
-                                                            <input class="form-control" id="password" name="password"
-                                                                type="password" placeholder="Enter your password..."
-                                                                data-sb-validations="required,password" />
-                                                            <label for="password">Password</label>
-                                                            <div class="invalid-feedback"
-                                                                data-sb-feedback="password:required">A password is
-                                                                required.</div>
-                                                        </div>
-                                                        <br />
-                                                        <!-- Submit Button -->
-                                                        <button class="btn btn-primary text-uppercase" id="submitButton"
-                                                            type="submit">Login</button>
-                                                    </form>
-
-                                                    <!-- Signup Form -->
-                                                    <form class="tab-pane fade" id="signupform" action="/SaveLogin"
-                                                        method="POST" data-sb-form-api-token="API_TOKEN">
-                                                        <!-- User Name Field -->
-                                                        <div class="form-floating">
-                                                            <input class="form-control" id="username" name="username"
-                                                                type="text" placeholder="Enter your user name..."
-                                                                data-sb-validations="required,username" />
-                                                            <label for="username">User Name</label>
-                                                            <div class="invalid-feedback"
-                                                                data-sb-feedback="username:required">A username is
-                                                                required.</div>
-                                                            <div class="invalid-feedback"
-                                                                data-sb-feedback="username:username">User Name is not
-                                                                valid.</div>
-                                                        </div>
-                                                        <!-- Password Field -->
-                                                        <div class="form-floating">
-                                                            <input class="form-control" id="password" name="password"
-                                                                type="password" placeholder="Enter your password..."
-                                                                data-sb-validations="required,password" />
-                                                            <label for="password">Password</label>
-                                                            <div class="invalid-feedback"
-                                                                data-sb-feedback="password:required">A password is
-                                                                required.</div>
-                                                        </div>
-                                                        <!-- Confirm Password Field -->
-                                                        <div class="form-floating">
-                                                            <input class="form-control" id="cpassword" name="cpassword"
-                                                                type="password" placeholder="Enter your password..."
-                                                                data-sb-validations="required,cpassword" />
-                                                            <label for="cpassword">Confirm Password</label>
-                                                            <div class="invalid-feedback"
-                                                                data-sb-feedback="cpassword:required">A confirm password
-                                                                is required.</div>
-                                                        </div>
-                                                        <div class="form-floating">
-                                                            <select id="userType" name="userType" class="form-select">
-                                                                <option value="Driver">Driver</option>
-                                                                <option value="Examiner">Examiner</option>
-                                                                <option value="Admin">Admin</option>
-                                                            </select>
-                                                            <label for="userType">User Type</label>
-                                                            <div class="invalid-feedback"
-                                                                data-sb-feedback="userType:required">A user type is
-                                                                required.</div>
-                                                        </div>
-                                                        <br />
-                                                        <!-- Submit Button -->
-                                                        <button class="btn btn-primary text-uppercase" id="submitButton"
-                                                            type="submit">Sign Up</button>
-                                                    </form>
-
-                                        </div>
+                                                <!-- Signup Form -->
+                                                <form class="tab-pane fade" id="signupform" action="/SaveLogin"
+                                                    method="POST" data-sb-form-api-token="API_TOKEN">
+                                                    <!-- User Name Field -->
+                                                    <div class="form-floating">
+                                                        <input class="form-control" id="username" name="username"
+                                                            type="text" placeholder="Enter your user name..."
+                                                            data-sb-validations="required,username" />
+                                                        <label for="username">User Name</label>
+                                                        <div class="invalid-feedback"
+                                                            data-sb-feedback="username:required">A username is
+                                                            required.</div>
+                                                        <div class="invalid-feedback"
+                                                            data-sb-feedback="username:username">User Name is not
+                                                            valid.</div>
+                                                    </div>
+                                                    <!-- Password Field -->
+                                                    <div class="form-floating">
+                                                        <input class="form-control" id="password" name="password"
+                                                            type="password" placeholder="Enter your password..."
+                                                            data-sb-validations="required,password" />
+                                                        <label for="password">Password</label>
+                                                        <div class="invalid-feedback"
+                                                            data-sb-feedback="password:required">A password is
+                                                            required.</div>
+                                                    </div>
+                                                    <!-- Confirm Password Field -->
+                                                    <div class="form-floating">
+                                                        <input class="form-control" id="cpassword" name="cpassword"
+                                                            type="password" placeholder="Enter your password..."
+                                                            data-sb-validations="required,cpassword" />
+                                                        <label for="cpassword">Confirm Password</label>
+                                                        <div class="invalid-feedback"
+                                                            data-sb-feedback="cpassword:required">A confirm password
+                                                            is required.</div>
+                                                    </div>
+                                                    <div class="form-floating">
+                                                        <select id="userType" name="userType" class="form-select">
+                                                            <option value="Driver">Driver</option>
+                                                            <option value="Examiner">Examiner</option>
+                                                            <option value="Admin">Admin</option>
+                                                        </select>
+                                                        <label for="userType">User Type</label>
+                                                        <div class="invalid-feedback"
+                                                            data-sb-feedback="userType:required">A user type is
+                                                            required.</div>
+                                                    </div>
+                                                    <br />
+                                                    <!-- Submit Button -->
+                                                    <button class="btn btn-primary text-uppercase" id="submitButton"
+                                                        type="submit">Sign Up</button>
+                                                </form>
                                     </div>
                                 </div>
                             </div>
-                        </main>
-                    </div>
-
+                        </div>
+                    </main>
                 </div>
             </div>
         </div>

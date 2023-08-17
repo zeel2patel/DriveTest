@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Pass/Fail Candidates</title>
+</head>
+<body>
+  <h1>Pass/Fail Candidates</h1>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>License Number</th>
+        <th>Pass/Fail</th>
+        <th>Issue License</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% for (const candidate of passFail) { %>
+        <tr>
+          <td><%= passFail.firstName %> <%= passFail.lastName %></td>
+          <td><%= passFail.licenseNumber %></td>
+          <td><%= passFail.passFail %></td>
+          <td>
+            <form action="/admin/issue-order/<%= candidate._id %>" method="post">
+              <button type="submit">Issue License</button>
+            </form>
+          </td>
+        </tr>
+      <% } %>
+    </tbody>
+  </table>
+</body>
+</html>

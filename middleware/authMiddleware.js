@@ -5,11 +5,26 @@ const checkLoginAtOtherPage = (req, res, next) => {
 
   if (!loggedIn) {
     return res.redirect("/login"); // Redirect to login page if not logged in
-  } else if ((req.path == "g2.ejs" || req.path == "g.ejs") && UserType == "Driver") {
-    return res.redirect("/"); // Redirect to root page if user type is not "Driver"
+  } else if (req.path === "g2.ejs" || req.path === "g.ejs") {
+    if (UserType === "Driver") {
+      return res.redirect("/"); // Redirect to root page if user type is not "Driver"
+    }
+  } else if (req.path === "appointments.ejs") {
+    if (UserType === "Admin") {
+      return res.redirect("/"); // Redirect to root page if user type is not "Driver"
+    }
   }
-  next();
+    else if (req.path === "examiner.ejs") {
+      if (UserType === "Examiner") {
+        return res.redirect("/"); // Redirect to root page if user type is not "Driver"
+      }
+  }
+  else {
+    // For all other cases, allow access to the route
+    next();
+  }
 };
+
 
 // Authorization Middleware for Driver
 const authDriver = async (req, res, next) => {
@@ -31,6 +46,15 @@ const authAdmin = async (req, res, next) => {
   }
 };
 
+const authExaminer = async (req, res, next) => {
+  console.log("Authorizing Examiner");
+  if (req.session.userType == "Examiner") {
+    next();
+  } else {
+    res.redirect("/");
+  }
+};
+
 //This middleware is just for the login and signup page
 //If user is already logged in redirect them to Dashboard
 const checkGetLogin = (req, res, next) => {
@@ -40,5 +64,19 @@ const checkGetLogin = (req, res, next) => {
   next();
 };
 
+// middleware/examinerMiddleware.js
 
-module.exports = { checkLoginAtOtherPage, authDriver, authAdmin, checkGetLogin };
+
+const  checkExaminerAccess = (req, res, next) => {
+    if (req.session.UserType === 'Examiner') {
+      // User is an examiner, allow access
+      next();
+    } else {
+      // User is not an examiner, redirect to unauthorized page
+      res.redirect('/unauthorized');
+    }
+  };
+
+
+
+module.exports = { checkLoginAtOtherPage, authDriver, authAdmin,authExaminer, checkGetLogin, checkExaminerAccess };

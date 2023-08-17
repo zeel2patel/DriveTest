@@ -1,5 +1,6 @@
 const appointment = require('../models/appointments');
 
+// Function to render the appointments page and display available slots
 const appointmentsPage = async (req, res) => {
   try {
     const availableSlots = await appointment.find({ isTimeSlotAvailable: true }).select("Date Time");
@@ -12,13 +13,15 @@ const appointmentsPage = async (req, res) => {
   }
 };
 
+// Function to create a new appointment slot
 const createApt = async (req, res) => {
   let { sdate, stime } = req.body;
-  console.log(sdate + " time :" + stime);
+  console.log("date :" + sdate + " time :" + stime);
   try {
     const existingAppointment = await appointment.findOne({ Date: sdate, Time: stime });
 
     if (existingAppointment) {
+      // If the slot already exists, display the existing available slots for the date
       const availableSlots = await appointment.find({ Date: sdate, IsTimeSlotAvailable: true }).select('Time');
       res.render("appointments.ejs", {
         message: "Slot already added",
@@ -28,6 +31,7 @@ const createApt = async (req, res) => {
         addedSlotTime: stime, // Pass the added slot time
       });
     } else {
+      // If the slot doesn't exist, create a new one and display the available slots for the date
       await appointment.create({
         Date: sdate,
         Time: stime,
@@ -48,21 +52,13 @@ const createApt = async (req, res) => {
   }
 };
 
+// Function to render the appointments page initially
 const getAppointmentPage = (req, res) => {
   res.render('appointments.ejs', { message: "", color: "" });
 };
 
+// Function to get available time slots for the given date
 const getAvailableSlots = async (req, res) => {
-  // console.log("query : ", req.query.date);
-  // try {
-  //   const availableSlot = await appointment.find({ Date: req.query.date, IsTimeSlotAvailable: true }).select('Time');
-  //   console.log("avail : ", availableSlot);
-  //   return res.send({ availableSlot });
-  // } catch (error) {
-  //   console.error("Error:", error);
-  //   res.status(500).json({ message: "An error occurred" });
-  // }
-
   appointment.find({ Date: req.body.Date, isTimeSlotAvailable: true },
     (error, slots) => {
       if (error) {
@@ -79,15 +75,20 @@ const getAvailableSlots = async (req, res) => {
   );
 };
 
+// Function to book an available appointment slot
 const bookAppointmentSlot = async (req, res) => {
   console.log("body :", req.body);
-  let date = req.body.date;
+  let sdate = req.body.sdate;
   let sTime = req.body.sTime;
 
   try {
-    const appointmentToUpdate = await appointment.findById(sTime);
+    const appointmentToUpdate = await appointment.findOne({
+      sdate: sdate,
+      sTime: sTime
+    });
 
     if (appointmentToUpdate) {
+      // If the appointment exists, mark the slot as booked and redirect to the appointments page
       appointmentToUpdate.IsTimeSlotAvailable = false;
       await appointmentToUpdate.save();
       res.redirect("/appointment");

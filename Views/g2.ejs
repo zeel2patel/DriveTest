@@ -20,6 +20,53 @@
         rel="stylesheet" />
     <!-- Core theme CSS (includes Bootstrap)-->
     <link rel="stylesheet" href="css/styles.css" />
+    <!-- Custom CSS -->
+    <style>
+       
+        .heading {
+            color: #007bff;
+            font-weight: 600;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .inp2 {
+            border: 1px solid #ced4da;
+            border-radius: 5px;
+            padding: 10px;
+            width: 100%;
+            font-size: 16px;
+        }
+        .inp2:focus {
+            outline: none;
+            box-shadow: 0 0 5px #007bff;
+        }
+        .submit-btn {
+            background-color: #007bff;
+            color: #ffffff;
+            border: none;
+            border-radius: 5px;
+            padding: 12px 50px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .submit-btn-2 {
+            background-color: #007bff;
+            color: #ffffff;
+            border: none;
+            border-radius: 5px;
+            padding: 12px 90px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .submit-btn:hover {
+            background-color: #0056b3;
+        }
+        .submit-btn-2:hover {
+            background-color: #0056b3;
+        }
+    </style>
 </head>
 
 <body id="page-top">
@@ -52,6 +99,11 @@
                 <a class="nav-link me-lg-3" href="/appointments">Appointment</a>
               </li>
               <% } %> 
+              <% if(loggedIn && userType=="Examiner" ) { %>
+                <li class="nav-item">
+                  <a class="nav-link me-lg-3" href="/examiner">Examiner</a>
+                </li>
+                <% } %>
     
             </ul>
             <% if(!loggedIn) { %>
@@ -79,39 +131,34 @@
         <div class="container px-5">
             <div class="row gx-5 align-items-center">
                 <div>
-                    <div class="appointment">
-                        <h1 class="heading">Book Appointment</h1><br>
-                        <form action="/slots" method="POST">
-                          <div class="row">
-                              <div class="col-252">
-                                  <label>
-                                      <h4>Appointment Slots</h4>
-                                  </label>
-                              </div>
-                          </div>
-                          <div class="row">
-                              <div class="col-752">
-                                  <input type="Date" class="inp2" id="dob" name="Date"
-                                      placeholder="Date" required>
-                              </div>
-                          </div><br>
-                          <div class="row">
-                              <div class="col-752">
-                                <button class="btn btn-primary text-uppercase" id="submitButton"
-                                type="submit">Submit</button>
-                              </div>
-                          </div>
-                      </form>
-                    </div><br>
+                    <div class="container mt-5">
+                        <div class="row justify-content-center">
+                            <div class="col-lg-6">
+                                <div class="appointment">
+                                    <h1 class="heading">G2 Book Appointment</h1>
+                                    <form action="/slots" method="POST">
+                                        <div class="mb-3">
+                                            <label for="appointmentDate" class="form-label">Appointment Date</label>
+                                            <input type="date" class="form-control inp2" id="appointmentDate" name="Date" required>
+                                        </div>
+                                        <div class="text-center">
+                                            <button type="submit" class="btn btn-primary submit-btn">Submit</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div><br><br>
                     <!-- Mashead text and app badges-->
+                    <% if( typeof available !=='undefined' && available !=null && available.length>
+                    0) {
+                     %>
                     <div class="mb-5 mb-lg-0 text-center text-lg-start">
-                        <h1 class="heading">G2 Page</h1>
-                        <% if( typeof available !=='undefined' && available !=null && available.length>
-                                            0) {
-                                             %>
+                        
+                       
                                             <form id="g2Form" action="/g2" method="POST"
-                                                data-sb-form-api-token="API_TOKEN">
-                                                <hr>
+                                                data-sb-form-api-token="API_TOKEN"><br>
+                                                <h1 class="heading">Appointment Details</h1>
                                                 <div class="form-floating">
                                                     <input type="date" class="form-control" name="Date"
                                                         placeholder="Date" readonly value=<%- `"${Date}"` -%> >
@@ -127,8 +174,8 @@
                                                             <% } %>
                                                     </select>
                                                 </div>
-                                                <hr>
-                                                <h1 class="heading" >Personal Details</h1> <br /><br />
+                                                <hr><br>
+                                                <span class="subheading">Personal Details</span> <br /><br />
                                                 <div class="form-floating">
                                                     <input class="form-control" id="firstName" name="firstName"
                                                         type="text" placeholder="Enter your first name..."
@@ -226,8 +273,9 @@
                                                         required.</div>
                                                 </div>
                                                 <br />
-                                                <button class="btn btn-primary text-uppercase" id="submitButton"
-                                                    type="submit">Submit</button>
+                                                <div class="text-center">
+                                                    <button type="submit" class="btn btn-primary submit-btn-2">Submit</button>
+                                                </div>
                                             </form>
                                             <% } %>
 
@@ -246,59 +294,7 @@
             </div>
         </div>
     </footer>
-    <!-- Bootstrap core JS-->
-    <!-- <script>// g2.js
-
-        // Function to fetch available appointment slots for the selected date
-        function getAvailableSlot(selectedDate) {
-          const formattedDate = new Date(selectedDate).toISOString().split('T')[0];
-        
-          fetch("/slots", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ selectedDate: formattedDate }),
-          })
-            .then((response) => response.json())
-            .then((data) => {
-              const appointmentList = document.getElementById("appointmentList");
-              appointmentList.innerHTML = "";
-        
-              data.forEach((slot) => {
-                const listItem = document.createElement("li");
-                listItem.textContent = slot.Time;
-        
-                // Add a button to book the appointment
-                const bookButton = document.createElement("button");
-                bookButton.textContent = "Book";
-                bookButton.onclick = () => bookAppointment(slot.Date, slot.Time);
-        
-                listItem.appendChild(bookButton);
-                appointmentList.appendChild(listItem);
-              });
-            })
-            .catch((error) => console.error("Error:", error));
-        }
-        
-        // Function to book an appointment
-        function bookAppointment(date, time) {
-          // Send a POST request to the server to book the appointment
-          fetch("/appointment-slot-book", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ Date: date, Time: time }),
-          })
-            .then((response) => response.json())
-            .then((data) => {
-              alert(data.message);
-              getAvailableSlot(document.getElementById("datePicker").value); // Refresh the available slots list after booking
-            })
-            .catch((error) => console.error("Error:", error));
-        }
-        </script> -->
+    
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
     <!-- Core theme JS-->
     <script src="js/scripts.js"></script>
