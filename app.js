@@ -4,7 +4,7 @@ const port = 4050;
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const expressSession = require("express-session");
-
+const authMiddleware = require("./middleware/authMiddleware");
 
 // Import the User model
 const User = require("./models/User");
